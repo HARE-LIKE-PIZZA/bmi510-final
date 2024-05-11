@@ -1,0 +1,24 @@
+---
+title: "BMI 510 Final"
+author: "Qing Yin"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1
+
+
+```{r logLikBernoulli}
+logLikBernoulli <- function(data) {
+  p_grid <- seq(0, 1, by = 0.001)
+  loglik <- sapply(p_grid, function(p) sum(log(p^data * (1-p)^(1-data))))
+  p_grid[which.max(loglik)]
+}
+data <- c(1, 0, 0, 0, 1, 1, 1)
+p_max <- logLikBernoulli(data)
+print(p_max)
+```
+

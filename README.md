@@ -1,3 +1,3 @@
-This is my Final for BMI 510.
+##This is Qing's Final for BMI 510.
 
-I transfered my .rmd file to R package with ChatGPT, if the structure make you confused, please view my .rmd file.
+I converted my .Rmd file to the R package according to ChatGPT's suggestion, if the structure is confusing you, please view _Final-Qing Yin.Rmd_.

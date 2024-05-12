@@ -17,7 +17,7 @@ This function standardizes the names of a data frame or tibble by converting
 them into small camel case format after replacing any non-alphanumeric characters with underscores.
 }
 \examples{
-data <- tibble(
+data <- data.frame(
   "First Name" = c("John", "Jane"),
   "Last_Name" = c("Doe", "Smith"),
   "Age." = c(25, 30)

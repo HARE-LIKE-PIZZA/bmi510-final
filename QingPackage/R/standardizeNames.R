@@ -7,7 +7,7 @@
 #' @return A tibble with standardized column names.
 #' @export
 #' @examples
-#' data <- tibble(
+#' data <- data.frame(
 #'   "First Name" = c("John", "Jane"),
 #'   "Last_Name" = c("Doe", "Smith"),
 #'   "Age." = c(25, 30)
@@ -15,8 +15,10 @@
 #' standardized_data <- standardizeNames(data)
 #' print(standardized_data)
 standardizeNames <- function(data) {
+  library(tibble)  # 确保 tibble 包被加载
+
   if (!is.data.frame(data)) {
-    stop("Input must be a tibble or data frame")
+    stop("Input must be a data frame or a tibble")
   }
   if (!is_tibble(data)) {
     data <- as_tibble(data)

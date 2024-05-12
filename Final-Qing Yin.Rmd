@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Q1
 
-
 ```{r logLikBernoulli}
 logLikBernoulli <- function(data) {
   p_grid <- seq(0, 1, by = 0.001)
@@ -51,4 +50,62 @@ data <- read.csv("https://jlucasmckay.bmi.emory.edu/global/bmi510/Labs-Materials
 status <- data$status
 time <- data$time
 survCurv(status, time)
+```
+
+## Q3
+
+```{r unsalce}
+unscale <- function(x) {
+  if (!is.null(attr(x, "scaled:center")) && !is.null(attr(x, "scaled:scale"))) {
+    center <- attr(x, "scaled:center")
+    scale <- attr(x, "scaled:scale")
+  
+    unscaled_x <- x * scale + center
+    attr(unscaled_x, "scaled:center") <- NULL
+    attr(unscaled_x, "scaled:scale") <- NULL
+    
+    return(unscaled_x)
+  } else {
+    # If the vector has not been scaled, return it as is
+    return(x)
+  }
+}
+
+# sample 
+x <- c(1, 2, 3, 4, 5)
+scaled_x <- scale(x)
+unscaled_x <- unscale(scaled_x)
+print(unscaled_x)
+```
+
+## Q4
+
+```{r pcApprox}
+pcApprox <- function(x, npc) {
+  if (!is.matrix(x) && !is.data.frame(x)) {
+    stop("x must be a numeric matrix or data frame")
+  }
+
+  if (is.data.frame(x)) {
+    x <- as.matrix(x)
+  }
+ 
+  scaled_x <- scale(x, center = TRUE, scale = TRUE)
+  pca <- prcomp(scaled_x, center = FALSE, scale. = FALSE)
+  pc_scores <- pca$x[, 1:npc]
+  
+  loadings <- pca$rotation[, 1:npc]
+  approximation <- pc_scores %*% t(loadings)
+  
+  # Rescale and center the approximation to match the original data
+  approximation <- scale(approximation, center = FALSE, scale = FALSE)
+  approximation <- sweep(approximation, 2, attr(scaled_x, "scaled:scale"), FUN = "*")
+  approximation <- sweep(approximation, 2, attr(scaled_x, "scaled:center"), FUN = "+")
+  return(approximation)
+}
+# Sample
+set.seed(123)
+x <- matrix(rnorm(100), nrow = 10)
+approximation <- pcApprox(x, npc = 2)
+print(approximation)
 ```

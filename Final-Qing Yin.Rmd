@@ -113,7 +113,10 @@ print(approximation)
 ## Q5
 
 ```{r standardizeNames}
+# Set the CRAN mirror
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
 install.packages(c("tibble", "dplyr", "janitor", "snakecase"))
+
 library(tibble)
 library(dplyr)
 library(janitor)
@@ -138,8 +141,7 @@ standardizeNames <- function(data) {
   return(data)
 }
 
-# Sample
-
+# Sample data
 data <- tibble(
   "First Name" = c("John", "Jane"),
   "Last_Name" = c("Doe", "Smith"),
@@ -200,3 +202,33 @@ print(min_n)
 
 ```
 
+## Q7
+```{r }
+downloadRedcapReport <- function(redcapTokenName, redcapUrl, redcapReportId) {
+
+  redcapToken <- Sys.getenv(redcapTokenName)
+
+  if (nchar(redcapToken) == 0) {
+    stop("API token not found in the .REnviron file")
+  }
+
+  apiEndpoint <- paste0(redcapUrl, "/api/")
+  params <- list(
+    token = redcapToken,
+    content = "report",
+    format = "json",
+    report_id = redcapReportId
+  )
+  
+  response <- httr::POST(apiEndpoint, body = params, encode = "form")
+  if (httr::status_code(response) != 200) {
+    stop("Failed to retrieve the RedCap report")
+  }
+  
+  jsonData <- httr::content(response, "text", encoding = "UTF-8")
+  data <- jsonlite::fromJSON(jsonData)
+  reportData <- tibble::as_tibble(data)
+  return(reportData)
+}
+
+```

@@ -199,7 +199,6 @@ x1 <- c(2.3, 1.9, 2.1, 2.4, 2.2)
 x2 <- c(1.8, 2.0, 1.9, 2.2, 2.1)
 min_n <- minimumN(x1, x2)
 print(min_n)
-
 ```
 
 ## Q7
@@ -230,5 +229,4 @@ downloadRedcapReport <- function(redcapTokenName, redcapUrl, redcapReportId) {
   reportData <- tibble::as_tibble(data)
   return(reportData)
 }
-
 ```
